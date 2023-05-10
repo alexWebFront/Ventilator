@@ -1,0 +1,251 @@
+// Файл обнуляющих стилей
+@import "nullstyle.scss";
+@import 'gallery.scss';
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular.woff2') format('woff2'),
+  url('../fonts/OpenSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Bold.woff2') format('woff2'),
+  url('../fonts/OpenSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+html,
+body {
+  font-size: 20px;
+  font-family: 'Open Sans';
+}
+
+body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  padding: 20px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.item {
+  flex: 1 1 30%;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #000 0%, rgba(255, 255, 255, 0) 40%);
+    z-index: 2;
+    transform: rotate(180deg);
+  }
+}
+
+.item-img {
+  position: relative;
+  height: 340px;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+}
+
+.item-title {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 41px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  z-index: 3;
+}
+
+.item-bage {
+  font-size: 20px;
+  line-height: 27px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #3A3A3A;
+  padding: 4px 16px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+//====================================================================================================
+.popup {
+  -webkit-overflow-scrolling: touch;
+  z-index: 100;
+  padding: 30px 10px;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: visibility 0.4s ease 0s;
+  visibility: hidden;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, #FFFFFF 100%);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease 0s;
+  }
+
+  &.active {
+    overflow: auto;
+    visibility: visible;
+
+    &::before {
+      opacity: 1;
+    }
+
+    .popup__body {
+      transition: all 0.3s ease 0.2s;
+      transform: scale(1);
+    }
+  }
+
+  // .popup__content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // .popup__body
+  &__body {
+    transform: scale(0);
+    transition: all 0.3s ease 0s;
+    padding: 40px 80px 80px;
+    width: 100%;
+    max-width: 1640px;
+    background: #FAFAFA;
+    border-radius: 48px;
+  }
+
+  // .popup__close
+  &__close {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 40px;
+    right: 80px;
+    cursor: pointer;
+    z-index: 30;
+    background: url("../img/icons/close.svg") 0 0 no-repeat;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 82px;
+    text-transform: uppercase;
+    color: #303030;
+    margin-bottom: 32px;
+  }
+
+  &__subtitle {
+    font-size: 30px;
+    line-height: 41px;
+    color: #909090;
+    margin-bottom: 32px;
+  }
+
+  &__text {
+    line-height: 40px;
+    color: #303030;
+  }
+}
+
+._gallery {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  overflow-y: auto;
+  padding-bottom: 3px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & a {
+    flex: 0 0 320px;
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      height: 100%;
+    }
+  }
+}
+
+.main__preview {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 1s;
+  pointer-events: all;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.inactive {
+  opacity: 0;
+  pointer-events: none;
+}

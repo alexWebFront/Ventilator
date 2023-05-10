@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/video.css">
+</head>
+
+<body>
+	<div class="videos">
+		<div class="video left"></div>
+		<div class="video right"></div>
+	</div>
+</body>
+<script>
+
+	let leftSide = document.querySelector('.left');
+	let rightSide = document.querySelector('.right');
+
+	const videoLeft = document.createElement('video');
+	videoLeft.loop = true;
+	videoLeft.muted = true;
+	videoLeft.controls = false;
+	videoLeft.autoplay = true;
+
+	const videoRight = document.createElement('video');
+	videoRight.loop = true;
+	videoRight.muted = true;
+	videoRight.controls = false;
+	videoRight.autoplay = true;
+
+	window.addEventListener('storage', (event) => {
+
+		if (event.storageArea != localStorage) return;
+		if (event.key === 'videoLeft') {
+			if (event.newValue == null) {
+				videoLeft.remove();
+			} else {
+				videoLeft.setAttribute('src', `video/left/${event.newValue}.mp4`);
+				leftSide.append(videoLeft);
+			}
+		}
+		if (event.key === 'videoRight') {
+			if (event.newValue == null) {
+				videoRight.remove();
+			} else {
+				videoRight.setAttribute('src', `video/right/${event.newValue}.mp4`);
+				rightSide.append(videoRight);
+			}
+		}
+		// if (event.key === 'goRight') {
+		// 	if (event.newValue === null) {
+		// 		goRight = false;
+		// 	} else {
+		// 		goRight = true;
+		// 	}
+		// }
+		// if (event.key === 'goLeft') {
+		// 	if (event.newValue === null) {
+		// 		goLeft = false;
+		// 	} else {
+		// 		goLeft = true;
+		// 	}
+		// }
+	});
+
+
+	function getRandomIndexVideoLeft(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function getRandomIndexVideoRight(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	//Timeout
+	function inactivityTime() {
+		let time = 0;
+		let videoTime = 0;
+		setInterval(() => {
+			time++
+			videoTime++
+			let goRight = localStorage.getItem('goRight');
+			let goLeft = localStorage.getItem('goLeft');
+			console.log(goLeft, goRight);
+			if (!goLeft && videoTime >= 9) {
+				videoLeft.setAttribute('src', `video/left/${getRandomIndexVideoLeft(1, 9)}.mp4`);
+				leftSide.append(videoLeft);
+			}
+			if (!goRight && videoTime >= 9) {
+				videoRight.setAttribute('src', `video/right/${getRandomIndexVideoRight(1, 9)}.mp4`);
+				rightSide.append(videoRight);
+			}
+			if (videoTime >= 9) {
+				resetVideoTimer();
+			}
+		}, 1000);
+		// сюда можно добавить любой ивент.
+		document.addEventListener('mousemove', resetTimer);
+		document.addEventListener('keypress', resetTimer);
+		document.addEventListener('touch', resetTimer);
+
+		function resetTimer() {
+			time = 0;
+		}
+
+		function resetVideoTimer() {
+			videoTime = 0;
+		}
+	}
+
+	inactivityTime();
+</script>
+
+</html>
